@@ -1,7 +1,17 @@
 import React from 'react'
+import CustomAlert from '../Elements/CustomAlert'
 import { Button } from 'reactstrap'
 
-const FormLogin = ( { onSubmitFormLogin, data, onInputChangeValue } ) => {
+
+
+const FormLogin = ( { onSubmitFormLogin, data, onInputChangeValue, isFetchingJunior, isError } ) => {
+
+    let message=""
+    if(isError){
+        message=(<CustomAlert type='danger' message='Error de api'/>)
+    }else{
+        message=(<CustomAlert type='success' message='Success api'/>)
+    }
     return (
 
         <form onSubmit={(e) => onSubmitFormLogin(e)}>
@@ -10,7 +20,8 @@ const FormLogin = ( { onSubmitFormLogin, data, onInputChangeValue } ) => {
             <br />
             <input type="text" name="password" id="password" value={data.password} onChange={onInputChangeValue} />
             <br />
-            <Button color="primary"> Login </Button>
+            <Button color="primary" disabled={isFetchingJunior}> Login </Button>
+            {message}
         </form>
 
     )

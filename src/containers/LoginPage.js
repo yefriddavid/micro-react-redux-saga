@@ -16,8 +16,6 @@ class LoginContainer extends Component {
 
     onSubmitFormLogin = (e) => {
         e.preventDefault()
-
-        alert(this.state.username)
         const formData = this.state
         this.props.actions.auth.login(formData)        
     }
@@ -34,7 +32,7 @@ class LoginContainer extends Component {
     render() {
 
         return(
-            <LoginPageComponent onSubmitFormLogin={this.onSubmitFormLogin} data={this.state} onInputChangeValue={this.onInputChangeValue} />
+            <LoginPageComponent onSubmitFormLogin={this.onSubmitFormLogin} data={this.state} onInputChangeValue={this.onInputChangeValue} isFetchingJunior={this.props.isFetchingJunior} isError={this.props.errorRequest}/>
         )
 
     } 
@@ -42,7 +40,11 @@ class LoginContainer extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {}
+    console.log(state)
+    return {
+        isFetchingJunior: state.login.rest.fetching,
+        errorRequest : state.login.rest.isError
+    }
 }
 
 const mapDispatchToProps = (dispatch) => {

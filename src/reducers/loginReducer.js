@@ -1,11 +1,11 @@
-import { login, errorRequest } from '../actions/authActions'
+import { login, errorRequest, beginLoginRequest, successRequest } from '../actions/authActions'
 import { createReducer } from 'redux-act'
 import { combineReducers } from 'redux'
 
 const initial = {
-    username: "",
-    password: "",
-    error: {}
+    error: {},
+    fetching: false,
+    isError: false
 }
 
 const rest = createReducer({
@@ -13,14 +13,28 @@ const rest = createReducer({
         console.log(payload)
         return {
             ...state,
-            username: payload.username,
-            password: payload.password
+            // username: payload.username,
+            // password: payload.password
         }
     },
     [errorRequest]: (state, payload) => {
         return {
             ...state,
-            error: payload.error
+            error: payload,
+            fetching: false,
+            isError: true
+        }
+    },
+    [beginLoginRequest]: (state, payload) => {
+        return {
+            ...state,
+            fetching: true
+        }
+    },
+    [successRequest]: (state, payload) => {
+        return {
+            ...state,
+            fetching: false
         }
     }
 }, initial)
